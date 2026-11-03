@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_session import Session
+from cs50 import SQL
 
 # configure app
 app = Flask(__name__)
+db = SQL("sqlite:///mydata.db")
 
 #configure session
 app.config["SESSION_PERMANENT"] = False
@@ -25,13 +27,16 @@ def login():
         if name:
             # store name in session
             session['name'] = name
+            # store name in database
+            db.execute("INSERT INTO users (name) VALUES (?)", name)
             return redirect('/home')
     return render_template('login.html')
 
 @app.route('/home')
 def home():
     name = session.get('name')
-    return render_template('home.html', name=name)
+    id = db.execute("SELECT id FROM users WHERE name = ?", name)
+    return render_template('home.html', name=name, id=id)
 
 @app.route('/logout')
 def logout():
