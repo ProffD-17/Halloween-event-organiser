@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>Create Event</h1>
+    <form method="POST">
+        <label for="event_name">Event Name:</label>
+        <input type="text" id="event_name" name="event_name" required>
+
+        <label >Event Type:</label>
+        <label for="party">Party</label>
+        <input type="radio" name="event_type" value="party" id="party">
+        <label for="trick_or_treat_group">Trick or Treat Group</label>
+        <input type="radio" name="event_type" value="trick_or_treat_group" id="trick_or_treat_group">
+
+        <label for="event_time">Event Time:</label>
+        <input type="time" id="event_time" name="event_time" required>
+
+        <label for="event_location">Event Location:</label>
+        <input type="text" id="event_location" name="event_location" required>
+
+        <button type="submit">Create Event</button>
+    </form>
+
+{% endblock %}
