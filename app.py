@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect
-from flask_session import Session
+from flask_session import Session as session
 
 # configure app
 app = Flask(__name__)
@@ -7,7 +7,7 @@ app = Flask(__name__)
 #configure session
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+session(app)
 
 @app.route('/')
 def index():
