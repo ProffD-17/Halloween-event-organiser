@@ -28,7 +28,7 @@ def login():
             # store name in session
             session['name'] = name
             # store name in database
-            db.execute("INSERT INTO users (name) VALUES (?)", name)
+            db.execute("INSERT INTO users (name) VALUES (?)", [name])
             return redirect('/home')
     return render_template('login.html')
 
