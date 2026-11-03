@@ -11,6 +11,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+user_id = 'unknown'  # Global variable to store the user ID
 
 # handle logging in and out
 @app.route('/')
@@ -39,6 +40,9 @@ def login():
             email = request.form.get('email')
             password = request.form.get('password')
             db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", name, email, password)
+            user_id = db.execute("SELECT id FROM users WHERE name = ? AND email = ? AND password = ?", name, email, password)
+            if not user_id:
+                return "Error: User not found in database."
             return redirect('/home')
     return render_template('login.html')
 
@@ -57,6 +61,7 @@ def create_event():
         event_type = request.form.get('event_type')
         event_time = request.form.get('event_time')
         event_location = request.form.get('event_location')
-        db.execute("INSERT INTO events (name, type, time, location) VALUES (?, ?, ?, ?)", event_name, event_type, event_time, event_location)
+        host_id = request.form.get('host_id')
+        db.execute("INSERT INTO events (name, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, host_id)
         return redirect('/home')
-    return render_template('create_event.html')
+    return render_template('create_event.html', host_id=user_id)
