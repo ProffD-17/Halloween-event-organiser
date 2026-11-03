@@ -30,15 +30,14 @@ def login():
             # store name in database
             email = request.form.get('email')
             password = request.form.get('password')
+            db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", name, email, password)
             return redirect('/home')
-            db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, password])
-            
     return render_template('login.html')
 
 @app.route('/home')
 def home():
     name = session.get('name')
-    id = db.execute("SELECT id FROM users WHERE name = ?", [name])
+    id = db.execute("SELECT id FROM users WHERE name = ?", name)
     return render_template('home.html', name=name, id=id)
 
 @app.route('/logout')
