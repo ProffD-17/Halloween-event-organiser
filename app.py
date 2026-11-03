@@ -11,7 +11,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-user_id = 'unknown'  # Global variable to store the user ID
 
 # handle logging in and out
 @app.route('/')
@@ -25,8 +24,7 @@ def index():
 @app.route('/home')
 def home():
     name = session.get('name')
-    id = db.execute("SELECT id FROM users WHERE name = ?", name)
-    return render_template('home.html', name=name, id=id)
+    return render_template('home.html', name=name)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -41,8 +39,7 @@ def login():
             password = request.form.get('password')
             db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", name, email, password)
             user_id = db.execute("SELECT id FROM users WHERE name = ? AND email = ? AND password = ?", name, email, password)
-            if not user_id:
-                return "Error: User not found in database."
+            session['user_id'] = user_id[0]['id']  # Store the user ID in the session
             return redirect('/home')
     return render_template('login.html')
 
@@ -61,7 +58,11 @@ def create_event():
         event_type = request.form.get('event_type')
         event_time = request.form.get('event_time')
         event_location = request.form.get('event_location')
-        host_id = request.form.get('host_id')
-        db.execute("INSERT INTO events (name, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, host_id)
+        print('')
+        print('')
+        print('')
+        print("User ID:", session['user_id'])
+        print(type(session['user_id']))
+        db.execute("INSERT INTO events (name, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, session['user_id'])
         return redirect('/home')
-    return render_template('create_event.html', host_id=user_id)
+    return render_template('create_event.html', host_id=session['user_id'])
