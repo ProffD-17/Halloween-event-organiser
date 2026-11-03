@@ -35,10 +35,12 @@ def login():
 @app.route('/home')
 def home():
     name = session.get('name')
-    id = db.execute("SELECT id FROM users WHERE name = ?", name)
+    id = db.execute("SELECT id FROM users WHERE name = ?", [name])
     return render_template('home.html', name=name, id=id)
 
 @app.route('/logout')
 def logout():
     session.clear()
     return render_template('logged_out.html')
+
+app.run(debug=True)
