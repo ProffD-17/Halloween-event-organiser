@@ -42,5 +42,3 @@ def home():
 def logout():
     session.clear()
     return render_template('logged_out.html')
-
-app.run(debug=True)
