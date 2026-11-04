@@ -2,15 +2,25 @@
 
 {% block body %}
 
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="name">Name:</label>
-        <input type="text" name="name" placeholder="Name" autocomplete="off" id="name" required>
-        <label for="email">Email:</label>
-        <input type="email" name="email" placeholder="Email" autocomplete="off" id="email" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" placeholder="Password" autocomplete="off" id="password" required>
-        <button type="submit">Login</button>
-    </form>
+    {% if error %}
+        <h1>Error</h1>
+        {% if error == 'password' %}
+            <p>You either entered the wrong password or that username is already taken</p>
+        {% elif error == 'email'}
+            <p>Your email is either wrong or already in use</p>
+        {% endif %}
+    {% else %}
+        
+        <h1>Login/Register</h1>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required autocomplete="off" autofocus placeholder="Username">
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="Email" autocomplete="off" id="email" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password" autocomplete="off" id="password" required>
+        </form>
+
+    {% endif %}
 
 {% endblock %}
