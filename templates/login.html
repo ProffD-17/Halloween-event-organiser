@@ -6,9 +6,10 @@
         <h1>Error</h1>
         {% if error == 'password' %}
             <p>You either entered the wrong password or that username is already taken</p>
-        {% elif error == 'email'}
+        {% elif error == 'email' %}
             <p>Your email is either wrong or already in use</p>
         {% endif %}
+        <a href="/login">Retry</a>
     {% else %}
         
         <h1>Login/Register</h1>
@@ -19,6 +20,7 @@
             <input type="email" name="email" placeholder="Email" autocomplete="off" id="email" required>
             <label for="password">Password:</label>
             <input type="password" name="password" placeholder="Password" autocomplete="off" id="password" required>
+            <button type="submit">Login/Register</button>
         </form>
 
     {% endif %}

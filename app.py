@@ -44,9 +44,9 @@ def login():
                 return render_template('login.html', error='password')
             elif (not (email == user[0]['email'])):
                 return render_template('login.html', error='email')
-
-        # register user
-        db.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', username, email, password)
+        else:
+            # register user
+            db.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', username, email, password)
 
         # store usename in session
         session['username'] = username
