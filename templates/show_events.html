@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+    <h1>View events</h1>
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Time</th>
+            <th>Event type</th>
+            <th>Location</th>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event['name'] }}</td>
+                    <td>{{ event['time'] }}</td>
+                    <td>{{ event['type'] }}</td>
+                    <td>{{ event['location'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

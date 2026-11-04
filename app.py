@@ -83,4 +83,4 @@ def create_event():
 @app.route('/view_events')
 def view_events():
     events = db.execute('SELECT * FROM events')
-    return render_template('show_events.html', events)
+    return render_template('show_events.html', events=events)  
