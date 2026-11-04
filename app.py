@@ -71,6 +71,16 @@ def create_event():
         event_type = request.form.get('event_type')
         event_time = request.form.get('event_time')
         event_location = request.form.get('event_location')
-        db.execute("INSERT INTO events (username, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, session['user_id'])
+        host_id = request.form.get('host_id')
+        db.execute("INSERT INTO events (name, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, host_id)
         return redirect('/home')
-    return render_template('create_event.html', host_id=session['user_id'])
+    host_id = db.execute('SELECT id FROM users WHERE username = ?', session['username'])
+    if host_id:
+        host_id = host_id[0]['id']
+    return render_template('create_event.html', host_id=host_id)
+
+
+@app.route('/view_events')
+def view_events():
+    events = db.execute('SELECT * FROM events')
+    return render_template('show_events.html', events)
