@@ -8,6 +8,8 @@
             <th>Time</th>
             <th>Event type</th>
             <th>Location</th>
+            <th>Guests</th>
+            <th>Sign up</th>
         </thead>
         <tbody>
             {% for event in events %}
@@ -16,6 +18,18 @@
                     <td>{{ event['time'] }}</td>
                     <td>{{ event['type'] }}</td>
                     <td>{{ event['location'] }}</td>
+                    <td> 
+                        <form action="/guests" method="post">
+                            <input type="hidden" value="{{ event['id'] }}" name="event_id">
+                            <button type="submit">View guests</button>
+                        </form>
+                    </td>
+                    <td> 
+                        <form action="/attend" method="post">
+                            <input type="hidden" value="{{ event['id'] }}" name="event_id">
+                            <button type="submit">Sign up</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

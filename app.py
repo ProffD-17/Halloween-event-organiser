@@ -84,3 +84,15 @@ def create_event():
 def view_events():
     events = db.execute('SELECT * FROM events')
     return render_template('show_events.html', events=events)  
+
+
+@app.route('/guests', methods=['POST'])
+def guests():
+    event_id = request.form.get('event_id')
+    # TODO: show a list off all the people going
+
+@app.route('/attend', methods=['POST'])
+def attend():
+    event_id = request.form.get('event_id')
+    # TODO: add user to guest list of event
+
