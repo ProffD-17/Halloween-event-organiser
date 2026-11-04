@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <h1>Success</h1>
+    {% if success == 'log out' %}
+        <h2>Logged Out</h2>
+        <a href="/login">Login</a>
+    {% elif success == 'registered' %}
+        <h2>Registered</h2>
+        <a href="/home">Home</a>
+    {% endif %}
+    
+{% endblock %}

@@ -47,6 +47,7 @@ def login():
         else:
             # register user
             db.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', username, email, password)
+            return render_template('success.html', success='registered')
 
         # store usename in session
         session['username'] = username
@@ -58,7 +59,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('logged_out.html')
+    return render_template('success.html', success='log out')
 
 
 # handle creating events
