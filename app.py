@@ -39,7 +39,6 @@ def login():
 
         if user:
             # check password and email
-            
             if not (password == user[0]['password']):
                 return render_template('login.html', error='password')
             elif (not (email == user[0]['email'])):
@@ -47,10 +46,18 @@ def login():
         else:
             # register user
             db.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', username, email, password)
+            # store usename in session
+            session['username'] = username
+            user_id = db.execute('SELECT id FROM users WHERE username = ?', session['username'])
+            user_id = user_id[0]['id']
+            session['user_id'] = user_id
             return render_template('success.html', success='registered')
 
         # store usename in session
         session['username'] = username
+        user_id = db.execute('SELECT id FROM users WHERE username = ?', session['username'])
+        user_id = user_id[0]['id']
+        session['user_id'] = user_id
         return redirect('/home')
         
     # got here by link
@@ -86,9 +93,30 @@ def view_events():
 
 
 @app.route('/guests', methods=['POST'])
-def guests():
+def show_guests():
+    # get event id from form
     event_id = request.form.get('event_id')
-    # TODO: show a list off all the people going
+
+    guests_ids = db.execute('SELECT guest_id FROM guests WHERE event_id = ?', event_id) # list of dicts of guest ids
+    print(guests_ids)
+    # loop through the list of dicts and turn it into a list of ids
+    guests_id_list = []
+    for guest_id_dict in guests_ids:
+        guests_id_list.append(guest_id_dict['guest_id'])
+    print(guests_id_list)
+    guest_names = db.execute('SELECT username FROM users WHERE id IN (?)', guests_id_list)
+
+    # change format from list of dicts to list
+    guests_names_list = []
+    for guest_name in guest_names:
+        print(guest_name)
+        guests_names_list.append(guest_name['username'])
+
+    print(guests_names_list)
+
+    event_info = db.execute('SELECT * FROM events WHERE id = ?', event_id)
+    event_info = event_info[0]
+    return render_template('show_guests.html', guests=guests_names_list, event_name=event_info['name'])
 
 @app.route('/attend', methods=['POST'])
 def attend():
