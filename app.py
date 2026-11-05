@@ -65,19 +65,18 @@ def logout():
 # handle creating events
 @app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
+    host_id = db.execute('SELECT id FROM users WHERE username = ?', session['username'])
+    host_id = host_id[0]['id']
     if request.method == 'POST':
         # get details from form and add event in database
         event_name = request.form.get('event_name')
         event_type = request.form.get('event_type')
         event_time = request.form.get('event_time')
         event_location = request.form.get('event_location')
-        host_id = request.form.get('host_id')
         db.execute("INSERT INTO events (name, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, host_id)
         return redirect('/home')
-    host_id = db.execute('SELECT id FROM users WHERE username = ?', session['username'])
-    if host_id:
-        host_id = host_id[0]['id']
-    return render_template('create_event.html', host_id=host_id)
+    
+    return render_template('create_event.html')
 
 
 @app.route('/view_events')
@@ -94,5 +93,9 @@ def guests():
 @app.route('/attend', methods=['POST'])
 def attend():
     event_id = request.form.get('event_id')
-    # TODO: add user to guest list of event
+    user_id = session['user_id']
+    success = db.execute('INSERT INTO guests (event_id, guest_id) VALUES (?, ?)', event_id, user_id)
+    if success:
+        return render_template('success.html', success='registered')
+    return render_template('failure.html')
 

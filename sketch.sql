@@ -16,3 +16,12 @@ CREATE TABLE users (
     email TEXT NOT NULL,
     password TEXT NOT NULL
 );
+
+-- guests table
+CREATE TABLE guests (
+    id INTEGER PRIMARY KEY,
+    event_id INTEGER,
+    guest_id INTEGER,
+    FOREIGN KEY (guest_id) REFERENCES users(id),
+    FOREIGN KEY (event_id) REFERENCES events(id)
+);
