@@ -5,20 +5,7 @@
     box-sizing: border-box;
 }
 
-h1 {
+h1, h2 {
+    margin: 0 auto 10px;
     text-align: center;
-    margin-bottom: 10px;
-}
-
-tbody tr:nth-child(even), thead {
-    background-color: whitesmoke;
-}
-
-th,
-td {
-	padding: 0.25rem 0.75rem;
-}
-
-th {
-	border-bottom: 1px solid black;
 }
