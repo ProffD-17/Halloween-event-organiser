@@ -7,5 +7,14 @@
 
 h1, h2 {
     margin: 0 auto 10px;
-    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.container .btn {
+    margin: 0 5px;
 }
