@@ -129,14 +129,19 @@ def attend():
 
 
 # HANDLE PRIVILEGES
-@app.route('/privileges')
+admin_password = 'password' # password needed to get admin role
+@app.route('/privileges', methods=['GET', 'POST'])
 def privileges():
-    user_id = session['user_id']
-    role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
-    if role:
-        role = role[0]['role']
-    else:
-        # sholdnt ever happen
-        role = 'guest'
-    return render_template('privileges.html', role=role)
+    if request.method == 'GET':
+        user_id = session['user_id']
+        role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
+        if role:
+            role = role[0]['role']
+        else:
+            # sholdnt ever happen
+            role = 'guest'
+        return render_template('privileges.html', role=role)
+
+    requested_role = request.form.get('role')
+    password_given = request.form.get('password')
 
