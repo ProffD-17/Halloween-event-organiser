@@ -154,3 +154,32 @@ def privileges():
         return render_template('success.html', success='changed_role')
     return render_template('failure.html')
 
+# edit events
+@app.route('/edit_event', methods=['POST', 'GET'])
+def edit_event():
+    if request.method == 'GET':
+        event_id = request.args.get('event_id')
+        event_info = db.execute('SELECT * FROM events WHERE id = ?', event_id)
+        if not event_info:
+            return render_template('failure.html')
+        event_info = event_info[0]
+        return render_template('edit_event.html', event_info=event_info)
+
+    # check if user has authorisation to complete the action
+    # check if user is host
+    user_id = session['user_id']
+    event_id = request.form.get('event_id')
+    host_id = db.execute('SELECT host_id FROM events WHERE id = ?', event_id)
+    if not host_id:
+        return render_template('failure.html')
+    host_id = host_id[0]['host_id']
+    if user_id != host_id:
+        # check if user has admin
+        role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
+        if role:
+            role = role[0]['role']
+        if role != 'admin':
+            return render_template('failure.html')
+    print('authorised')
+    # get info from form and put it in db
+

@@ -10,6 +10,7 @@
             <th>Location</th>
             <th>Guests</th>
             <th>Sign up</th>
+            <th>Edit</th>
         </thead>
         <tbody>
             {% for event in events %}
@@ -21,13 +22,19 @@
                     <td> 
                         <form action="/guests" method="post">
                             <input type="hidden" value="{{ event['id'] }}" name="event_id">
-                            <button type="submit">View guests</button>
+                            <button class="btn btn-primary" type="submit">View guests</button>
                         </form>
                     </td>
                     <td> 
                         <form action="/attend" method="post">
                             <input type="hidden" value="{{ event['id'] }}" name="event_id">
-                            <button type="submit">Sign up</button>
+                            <button class="btn btn-primary" type="submit">Sign up</button>
+                        </form>
+                    </td>
+                    <td> 
+                        <form action="/edit_event" method="get">
+                            <input type="hidden" value="{{ event['id'] }}" name="event_id">
+                            <button class="btn btn-primary" type="submit">Edit</button>
                         </form>
                     </td>
                 </tr>
