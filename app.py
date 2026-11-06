@@ -129,11 +129,12 @@ def attend():
 
 
 # HANDLE PRIVILEGES
-admin_password = 'password' # password needed to get admin role
+CHANGE_ROLE_PASSWORD = 'password' # password needed to change role
 @app.route('/privileges', methods=['GET', 'POST'])
 def privileges():
+    user_id = session['user_id']
     if request.method == 'GET':
-        user_id = session['user_id']
+        # display role
         role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
         if role:
             role = role[0]['role']
@@ -141,7 +142,15 @@ def privileges():
             # sholdnt ever happen
             role = 'guest'
         return render_template('privileges.html', role=role)
+    
+    # check if password given right
+    password_given = request.form.get('password')
+    if password_given != CHANGE_ROLE_PASSWORD:
+        return render_template('failure.html')
 
     requested_role = request.form.get('role')
-    password_given = request.form.get('password')
+    success = db.execute('UPDATE users SET role = ? WHERE id = ?', requested_role, user_id)
+    if success:
+        return render_template('success.html', success='changed_role')
+    return render_template('failure.html')
 
