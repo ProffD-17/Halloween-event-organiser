@@ -7,7 +7,9 @@
         <a href="/login">Login</a>
     {% elif success == 'registered' %}
         <h2>Registered</h2>
-        <a href="/home">Home</a>
+    {% elif success == 'created_event' %}
+        <h2>Event created</h2>
+        <a href="/view_events">View events</a>
     {% endif %}
     
 {% endblock %}

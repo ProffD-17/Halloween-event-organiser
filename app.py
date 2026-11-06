@@ -24,7 +24,7 @@ def index():
 @app.route('/home')
 def home():
     username = session.get('username')
-    return render_template('home.html', username=username, logged_in=True)
+    return render_template('home.html', username=username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -40,9 +40,9 @@ def login():
         if user:
             # check password and email
             if not (password == user[0]['password']):
-                return render_template('login.html', error='password')
+                return render_template('login.html', error='password', logged_out=True)
             elif (not (email == user[0]['email'])):
-                return render_template('login.html', error='email')
+                return render_template('login.html', error='email', logged_out=True)
         else:
             # register user
             db.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', username, email, password)
@@ -51,7 +51,7 @@ def login():
             user_id = db.execute('SELECT id FROM users WHERE username = ?', session['username'])
             user_id = user_id[0]['id']
             session['user_id'] = user_id
-            return render_template('success.html', success='registered', logged_in=True)
+            return render_template('success.html', success='registered')
 
         # store usename in session
         session['username'] = username
@@ -61,12 +61,12 @@ def login():
         return redirect('/home')
         
     # got here by link
-    return render_template('login.html')
+    return render_template('login.html', logged_out=True)
 
 @app.route('/logout')
 def logout():
     session.clear()
-    return render_template('success.html', success='log out')
+    return render_template('success.html', success='log out', logged_out=True)
 
 
 # handle creating events
@@ -81,15 +81,15 @@ def create_event():
         event_time = request.form.get('event_time')
         event_location = request.form.get('event_location')
         db.execute("INSERT INTO events (name, type, time, location, host_id) VALUES (?, ?, ?, ?, ?)", event_name, event_type, event_time, event_location, host_id)
-        return redirect('/home')
+        return render_template('success.html', success='created_event')
     
-    return render_template('create_event.html', logged_in=True)
+    return render_template('create_event.html')
 
 
 @app.route('/view_events')
 def view_events():
     events = db.execute('SELECT * FROM events')
-    return render_template('show_events.html', events=events, logged_in=True)  
+    return render_template('show_events.html', events=events)  
 
 
 @app.route('/guests', methods=['POST'])
@@ -116,7 +116,7 @@ def show_guests():
 
     event_info = db.execute('SELECT * FROM events WHERE id = ?', event_id)
     event_info = event_info[0]
-    return render_template('show_guests.html', guests=guests_names_list, event_name=event_info['name'], logged_in=True)
+    return render_template('show_guests.html', guests=guests_names_list, event_name=event_info['name'])
 
 @app.route('/attend', methods=['POST'])
 def attend():
@@ -124,6 +124,6 @@ def attend():
     user_id = session['user_id']
     success = db.execute('INSERT INTO guests (event_id, guest_id) VALUES (?, ?)', event_id, user_id)
     if success:
-        return render_template('success.html', success='registered', logged_in=True)
+        return render_template('success.html', success='registered')
     return render_template('failure.html')
 
