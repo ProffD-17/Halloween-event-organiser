@@ -127,3 +127,16 @@ def attend():
         return render_template('success.html', success='registered')
     return render_template('failure.html')
 
+
+# HANDLE PRIVILEGES
+@app.route('/privileges')
+def privileges():
+    user_id = session['user_id']
+    role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
+    if role:
+        role = role[0]['role']
+    else:
+        # sholdnt ever happen
+        role = 'guest'
+    return render_template('privileges.html', role=role)
+
