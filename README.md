@@ -31,3 +31,7 @@ Im not sure if you have to install anything(not really sure how I got it working
 
 Steps:
 1. Make an account or sign if if you already have one
+2. Create an event or skip this step if you dont want to host something
+    - If you make a mistake or want to change the info of the event you can do so by going to view events -> edit
+3. View events that are on and maybe sign up for one
+4. Logout
