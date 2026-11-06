@@ -40,9 +40,9 @@ def login():
         if user:
             # check password and email
             if not (password == user[0]['password']):
-                return render_template('login.html', error='password', logged_out=True)
+                return render_template('failure.html', message='You either entered the wrong password or that username is already taken.', logged_out=True)
             elif (not (email == user[0]['email'])):
-                return render_template('login.html', error='email', logged_out=True)
+                return render_template('failure.html', message='Your email is either wrong or already in use.', logged_out=True)
         else:
             # register user
             db.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', username, email, password)
