@@ -13,6 +13,9 @@
     {% elif success == 'changed_role' %}
         <h2>Changed role</h2>
         <a href="/privileges">View role</a>
+    {% elif success == 'event changed' %}
+        <h2>Changed</h2>
+        <a href="/view_events">View Events</a>
     {% endif %}
     
 {% endblock %}

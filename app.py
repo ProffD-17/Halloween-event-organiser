@@ -125,7 +125,7 @@ def attend():
     success = db.execute('INSERT INTO guests (event_id, guest_id) VALUES (?, ?)', event_id, user_id)
     if success:
         return render_template('success.html', success='registered')
-    return render_template('failure.html')
+    return render_template('failure.html', message='Couldnt sign you up.')
 
 
 # HANDLE PRIVILEGES
@@ -146,13 +146,13 @@ def privileges():
     # check if password given right
     password_given = request.form.get('password')
     if password_given != CHANGE_ROLE_PASSWORD:
-        return render_template('failure.html')
+        return render_template('failure.html', message='Wrong password.')
 
     requested_role = request.form.get('role')
     success = db.execute('UPDATE users SET role = ? WHERE id = ?', requested_role, user_id)
     if success:
         return render_template('success.html', success='changed_role')
-    return render_template('failure.html')
+    return render_template('failure.html', message='Couldnt change role.')
 
 # edit events
 @app.route('/edit_event', methods=['POST', 'GET'])
@@ -161,7 +161,7 @@ def edit_event():
         event_id = request.args.get('event_id')
         event_info = db.execute('SELECT * FROM events WHERE id = ?', event_id)
         if not event_info:
-            return render_template('failure.html')
+            return render_template('failure.html', message='Invalid event ID.')
         event_info = event_info[0]
         return render_template('edit_event.html', event_info=event_info)
 
@@ -171,7 +171,7 @@ def edit_event():
     event_id = request.form.get('event_id')
     host_id = db.execute('SELECT host_id FROM events WHERE id = ?', event_id)
     if not host_id:
-        return render_template('failure.html')
+        return render_template('failure.html', message='Invalid event.')
     host_id = host_id[0]['host_id']
     if user_id != host_id:
         # check if user has admin
@@ -179,7 +179,14 @@ def edit_event():
         if role:
             role = role[0]['role']
         if role != 'admin':
-            return render_template('failure.html')
-    print('authorised')
+            return render_template('failure.html', message='You dont have the privilege to complete this action.')
     # get info from form and put it in db
+    name = request.form.get('name')
+    type = request.form.get('type')
+    time = request.form.get('time')
+    location = request.form.get('location')
+    success = db.execute('UPDATE events SET name = ?, type = ?, time = ?, location = ? WHERE id = ?', name, type, time, location, event_id)
+    if not success:
+        return render_template('failure.html', message='Couldnt change event information.')
+    return render_template('success.html', success='event changed')
 

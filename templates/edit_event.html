@@ -20,11 +20,16 @@
         </div>
 
         <div class="form-group m-3">
-            <label for="event_time">Event Time:</label>
-            <input type="time" id="event_time" name="event_time" value="{{ event_info['time'] }}" required>
+            <label for="time">Event Time:</label>
+            <input type="time" id="time" name="time" value="{{ event_info['time'] }}" required>
         </div>
 
-        <input type="hidden" name="event_id" value="{{ event_info['id']}}">
+        <div class="form-group m-3">
+            <label for="locaton">Location</label>
+            <input type="text" name="location" id="location" required value="{{ event_info['location']}}">
+        </div>
+
+        <input type="hidden" value="{{ event_info['id'] }}" name="event_id">
 
         <button class="btn btn-primary m-3" type="submit">Change</button>
     </form>

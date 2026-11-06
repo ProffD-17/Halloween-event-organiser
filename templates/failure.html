@@ -3,5 +3,8 @@
 
     <h1>Failure</h1>
     <p>This action could not be completed 😢</p>
+    {% if message%}
+        <p>{{ message }}</p>
+    {% endif %}
 
 {% endblock %}
