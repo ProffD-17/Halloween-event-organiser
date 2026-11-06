@@ -35,3 +35,10 @@ Steps:
     - If you make a mistake or want to change the info of the event you can do so by going to view events -> edit
 3. View events that are on and maybe sign up for one
 4. Logout
+
+## Next steps
+The next steps for this project are:
+- Let hosts and admins delete events
+- Organise app.py code
+- Make the front end look acctualy nice and halloweeny
+- Let users see events they are hosting and attending
