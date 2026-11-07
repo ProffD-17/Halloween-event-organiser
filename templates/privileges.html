@@ -4,31 +4,31 @@
     <h1>Privileges</h1>
     <section class="container">
         <h2>View</h2>
-        <h3 class="inline">Role:</h3>
-        <p class="inline">{{ role }}</p>
+        <p class="inline">Role:</p>
+        <p class="inline">{{ role.capitalize() }}</p>
     </section>
     
     <section class="container">
         <h2>Change</h2>
         <form action="/privileges" method="post">
             <h3>Change role</h3>
-            <div class="form-check">
-                <input id="user" type="radio" class="form-check-input" value="user" name="role" checked>
-                <label for="user" class="form-check-label">User</label>
-            </div>
-            <div class="form-check">
-                <input id="admin" type="radio" class="form-check-input" value="admin" name="role">
-                <label for="admin" class="form-check-label">Admin</label>
-            </div>
+
+            {% for role_option in roles %}
+                <div class="form-check">
+                    <input id="{{ role_option }}" type="radio" class="form-check-input" value="{{ role_option }}" name="role" {% if role_option == role %} checked {% endif %}>
+                    <label for="{{ role_option }}" class="form-check-label">{{ role_option.capitalize() }}</label>
+                </div>
+            {% endfor %}
+
             <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
                     <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 </div>
             </div>
+
             <button type="submit" class="btn btn-primary">Change</button>
         </form>
     </section>
     
-
 {% endblock %}

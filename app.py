@@ -134,20 +134,22 @@ def show_guests():
 
     return render_template('show_guests.html', guests=guests_names_list, event_name=event_name)
 
-# refactored up to here so far and will now test ------------------------------------------------------
 
+# let users sign up for events
 @app.route('/attend', methods=['POST'])
 def attend():
     event_id = request.form.get('event_id')
     user_id = session['user_id']
+    # add the user and event to the guests table(probably a better way of doing this but I cant think of anything else)
     success = db.execute('INSERT INTO guests (event_id, guest_id) VALUES (?, ?)', event_id, user_id)
     if success:
         return render_template('success.html', success='registered')
     return render_template('failure.html', message='Couldnt sign you up.')
 
 
-# HANDLE PRIVILEGES
-CHANGE_ROLE_PASSWORD = 'password' # password needed to change role
+# HANDLE ROLES
+CHANGE_ROLE_PASSWORD = 'password' # password needed to change role(super secure)
+ROLES = ['admin', 'user']
 @app.route('/privileges', methods=['GET', 'POST'])
 def privileges():
     user_id = session['user_id']
@@ -159,23 +161,28 @@ def privileges():
         else:
             # sholdnt ever happen
             role = 'guest'
-        return render_template('privileges.html', role=role)
+        return render_template('privileges.html', role=role, roles=ROLES)
     
-    # check if password given right
+    # check if password given is right
     password_given = request.form.get('password')
     if password_given != CHANGE_ROLE_PASSWORD:
         return render_template('failure.html', message='Wrong password.')
 
+    # change role
     requested_role = request.form.get('role')
+    if requested_role not in ROLES:
+        return render_template('failure.html', message='That role doesnt exist')
     success = db.execute('UPDATE users SET role = ? WHERE id = ?', requested_role, user_id)
     if success:
         return render_template('success.html', success='changed_role')
     return render_template('failure.html', message='Couldnt change role.')
 
+
 # edit events
 @app.route('/edit_event', methods=['POST', 'GET'])
 def edit_event():
     if request.method == 'GET':
+        # display form to change event info
         event_id = request.args.get('event_id')
         event_info = db.execute('SELECT * FROM events WHERE id = ?', event_id)
         if not event_info:
@@ -183,14 +190,14 @@ def edit_event():
         event_info = event_info[0]
         return render_template('edit_event.html', event_info=event_info)
 
-    # check if user has authorisation to complete the action
-    # check if user is host
+    # check if user has authorisation to complete the action (aka host of the event or admin)
     user_id = session['user_id']
     event_id = request.form.get('event_id')
     host_id = db.execute('SELECT host_id FROM events WHERE id = ?', event_id)
     if not host_id:
         return render_template('failure.html', message='Invalid event.')
     host_id = host_id[0]['host_id']
+    # check if user is host
     if user_id != host_id:
         # check if user has admin
         role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
@@ -198,6 +205,7 @@ def edit_event():
             role = role[0]['role']
         if role != 'admin':
             return render_template('failure.html', message='You dont have the privilege to complete this action.')
+    # at this point user has passed verification and has authorisation to change the info
     # get info from form and put it in db
     name = request.form.get('name')
     type = request.form.get('type')
