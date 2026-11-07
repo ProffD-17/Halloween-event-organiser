@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 {% block body %}
-
-    <h1>{{ event_name }}</h1>
-    <h2>Guests</h2>
-    <ul>
-        {% for guest in guests %}
-            <li>{{ guest }}</li>
-        {% endfor %}
-    </ul>
-
+    <section>
+        <h1>{{ event_name }}</h1>
+        <h2>Guests</h2>
+        <ul>
+            {% for guest in guests %}
+                <li>{{ guest }}</li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}

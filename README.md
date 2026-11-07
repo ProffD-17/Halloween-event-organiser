@@ -39,6 +39,5 @@ Steps:
 ## Next steps
 The next steps for this project are:
 - Let hosts and admins delete events
-- Organise app.py code
 - Make the front end look acctualy nice and halloweeny
 - Let users see events they are hosting and attending
