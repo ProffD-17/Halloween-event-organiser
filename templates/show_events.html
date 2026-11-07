@@ -2,44 +2,48 @@
 {% block body %}
 
     <h1>View events</h1>
-    <table class="table table-hover">
-        <thead>
-            <th>Name</th>
-            <th>Time</th>
-            <th>Event type</th>
-            <th>Location</th>
-            <th>Guests</th>
-            <th>Sign up</th>
-            <th>Edit</th>
-        </thead>
-        <tbody>
-            {% for event in events %}
-                <tr>
-                    <td>{{ event['name'] }}</td>
-                    <td>{{ event['time'] }}</td>
-                    <td>{{ event['type'] }}</td>
-                    <td>{{ event['location'] }}</td>
-                    <td> 
-                        <form action="/guests" method="post">
-                            <input type="hidden" value="{{ event['id'] }}" name="event_id">
-                            <button class="btn btn-primary" type="submit">View guests</button>
-                        </form>
-                    </td>
-                    <td> 
-                        <form action="/attend" method="post">
-                            <input type="hidden" value="{{ event['id'] }}" name="event_id">
-                            <button class="btn btn-primary" type="submit">Sign up</button>
-                        </form>
-                    </td>
-                    <td> 
-                        <form action="/edit_event" method="get">
-                            <input type="hidden" value="{{ event['id'] }}" name="event_id">
-                            <button class="btn btn-primary" type="submit">Edit</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+    {% if events %}
+        <table class="table table-hover">
+            <thead>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Event type</th>
+                <th>Location</th>
+                <th>Guests</th>
+                <th>Sign up</th>
+                <th>Edit</th>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event['name'] }}</td>
+                        <td>{{ event['time'] }}</td>
+                        <td>{{ event['type'] }}</td>
+                        <td>{{ event['location'] }}</td>
+                        <td> 
+                            <form action="/guests" method="post">
+                                <input type="hidden" value="{{ event['id'] }}" name="event_id">
+                                <button class="btn btn-primary" type="submit">View guests</button>
+                            </form>
+                        </td>
+                        <td> 
+                            <form action="/attend" method="post">
+                                <input type="hidden" value="{{ event['id'] }}" name="event_id">
+                                <button class="btn btn-primary" type="submit">Sign up</button>
+                            </form>
+                        </td>
+                        <td> 
+                            <form action="/edit_event" method="get">
+                                <input type="hidden" value="{{ event['id'] }}" name="event_id">
+                                <button class="btn btn-primary" type="submit">Edit</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No events</p>
+        <a href="/create_event">Make one</a>
+    {% endif %}
 {% endblock %}
