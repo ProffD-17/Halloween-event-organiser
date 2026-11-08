@@ -1,7 +1,9 @@
 # Halloween Event Organiser
 
-## Play here
+## Link
+[Halloween Event Organiser](https://halloween-event-organiser.onrender.com/)
 
+I used a service called render to host this so when you click on the link it will probably take about 30s to load.
 
 ## Description
 A web based system for organising and scheduling events for halloween. I find it hard to organise so many people for an event in a groupchat and someone always ends up turning up 2hrs early so this is to make the experience smoother. All you need to do is to make an account and host or sign up for events. All information is stored in a database so will be there for everyone. Only times are included in the event information because the date is 31st October for all of them.
@@ -39,9 +41,13 @@ Steps:
     - If you make a mistake or want to change the info of the event you can do so by going to view events -> edit
     - If you want to delete the event it is at the bottom of the edit menu
 3. View events that are on and maybe sign up for one
-4. Logout
+4. Try and break things and let me know what happens so I can fix it
+5. Logout
 
 ## Next steps
 The next steps for this project are:
 - Make the front end look actually nice and halloweeny
 - Let users see events they are hosting and attending
+
+## Notes for reviewers
+The password for getting the admin role is in the message you send to reviewers when submitting you project on Terra. 
