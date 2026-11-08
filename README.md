@@ -10,6 +10,17 @@ A web based system for organising and scheduling events for halloween. I find it
 
 If you are actually  going to use this keep in mind everyone can see where and when you are meeting so be careful and have a trusted adult.
 
+## Github repository explanation
+- README_screenshots - a folder containing all the screenshots in the readme file.
+- flask_session - a folder that contains the flask session trackers. Not sure if I need this in the repo so left it in just in case
+- static - contains the CSS and images for the web pages
+- templates - all the templates for the different pages
+- .gitignore - just ignore it 
+- README.md - the readme for the project
+- app.py - the logic for the backend and contains all the flask that links it to the frontend
+- mydata.db - stores the data for the users and events ect. (wish I'd chose a better name)
+- requirements.txt - the things you or Render need to download to run this(only if your running it locally)
+
 ## Features
 You can:
 - Make an account
@@ -65,7 +76,7 @@ CREATE TABLE guests (
 ```
 
 ## How to use
-You can use it through the web because I hosted it on Render's free tier. If you want to run it locally all the things you need to download are in requirements.txt
+You can use it through the web because I hosted it on Render's free tier. If you want to run it locally all the things you need to download are in requirements.txt(don't think you need to download Gunicorn, that is for Render)
 
 ### Steps:
 1. Make an account or sign in if you already have one
