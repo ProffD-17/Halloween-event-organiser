@@ -1,7 +1,7 @@
 # Halloween Event Organiser
 
 ## Link
-[Halloween Event Organiser](https://halloween-event-organiser.onrender.com/)
+[Halloween Event Organiser](https://halloween-event-organiser-production.up.railway.app/)
 
 I used a service called Railway to host it.
 
@@ -19,7 +19,7 @@ If you are actually  going to use this keep in mind everyone can see where and w
 - README.md - the readme for the project
 - app.py - the logic for the backend and contains all the flask that links it to the frontend
 - mydata.db - stores the data for the users and events ect. (wish I'd chose a better name)
-- requirements.txt - the things you or Render need to download to run this(only if your running it locally)
+- requirements.txt - the things you or Railway need to download to run this(only if your running it locally)
 
 ## Features
 You can:
@@ -76,7 +76,7 @@ CREATE TABLE guests (
 ```
 
 ## How to use
-You can use it through the web because I hosted it on Render's free tier. If you want to run it locally all the things you need to download are in requirements.txt(don't think you need to download Gunicorn, that is for Render)
+You can use it through the web because I hosted it on Railway's free tier. If you want to run it locally all the things you need to download are in requirements.txt(don't think you need to download Gunicorn, that is for Railway)
 
 ### Steps:
 1. Make an account or sign in if you already have one
