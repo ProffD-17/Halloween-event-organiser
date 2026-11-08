@@ -3,7 +3,7 @@
 ## Link
 [Halloween Event Organiser](https://halloween-event-organiser.onrender.com/)
 
-I used a service called Render's free tier to host it so some delay for it to load when you click the link is normal.
+I used a service called Railway to host it.
 
 ## Description
 A web based system for organising and scheduling events for halloween. I find it hard to organise a big event on a groupchat and someone always ends up turning up 2hrs early so this is to make the experience smoother and keep all the information in one place so it is convenient and easy to access. It also encourages community because you might attend an event you wouldn't usually and make new friends. All you need to do is to make an account and host or sign up for events. All information is stored in a database so will be there for everyone. Only times are included in the event information because the date is 31st October for all of them.
