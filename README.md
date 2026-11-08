@@ -36,6 +36,7 @@ Flask and Jinja were new so I had to learn them as I went.
 ### SQLite database
 Here is the schema of the database:
 
+```sql
 CREATE TABLE events (
     id INTEGER UNIQUE PRIMARY KEY,
     name TEXT NOT NULL,
@@ -61,6 +62,7 @@ CREATE TABLE guests (
     FOREIGN KEY (guest_id) REFERENCES users(id),
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
+```
 
 ## How to use
 You can use it through the web because I hosted it on Render's free tier. If you want to run it locally all the things you need to download are in requirements.txt
@@ -85,3 +87,13 @@ The password for getting the admin role is in the message you send to reviewers 
 
 ## License
 Use whatever you want.
+
+## Screenshots
+### Home
+![Home page](README_screenshots\home.png)
+
+### Create event
+![Create event form](README_screenshots\create_event.png)
+
+### Event info
+![Event info page](README_screenshots\event_info.png)
