@@ -5,11 +5,12 @@
     box-sizing: border-box;
     font-family: "Creepster", system-ui;
     font-style: normal;
-    color: #F7AB31;
+    color: #FFF;
 }
 
 h1, h2 {
     margin: 0 auto 10px;
+    color: #F7AB31;
 }
 
 .container .btn {
@@ -21,7 +22,7 @@ h1, h2 {
 }
 
 section {
-    margin: 10px auto;
+    margin: 10px 10px;
     text-align: center;
     /* gives it a metallic looking border */
     background: linear-gradient(to bottom, #660B73, #AD24AB, #660B73) padding-box, 
@@ -39,3 +40,8 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+form {
+    margin: 5px auto;
+}
+

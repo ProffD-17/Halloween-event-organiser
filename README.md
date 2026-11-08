@@ -39,5 +39,5 @@ Steps:
 ## Next steps
 The next steps for this project are:
 - Let hosts and admins delete events
-- Make the front end look acctualy nice and halloweeny
+- Make the front end look actually nice and halloweeny
 - Let users see events they are hosting and attending

@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+    <section>
+        <h1>{{ event_info['name'] }} Information</h1>
+        
+        <h2>Name:</h2>
+        <p>{{ event_info['name'] }}</p>
+
+        <h2>Time:</h2>
+        <p>{{ event_info['time'] }}</p>
+
+        <h2>Location:</h2>
+        <p>{{ event_info['location'] }}</p>
+
+        <h2>Type:</h2>
+        <p>{{ event_info['type'] }}</p>
+
+        <h2>Guests:</h2>
+        <form action="/guests" method="post">
+            <input type="hidden" value="{{ event_info['id'] }}" name="event_id">
+            <button class="btn btn-primary" type="submit">View guests</button>
+        </form>
+
+        <h2>Sign up:</h2>
+        <form action="/attend" method="post">
+            <input type="hidden" value="{{ event_info['id'] }}" name="event_id">
+            <button class="btn btn-primary" type="submit">Sign up</button>
+        </form>
+
+        <h2>Edit:</h2>
+        <form action="/edit_event" method="get">
+            <input type="hidden" value="{{ event_info['id'] }}" name="event_id">
+            <button class="btn btn-primary" type="submit">Edit</button>
+        </form>
+        
+        <a class="btn btn-primary" href="/view_events">All events</a>
+    </section>
+
+{% endblock %}

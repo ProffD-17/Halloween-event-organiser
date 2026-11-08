@@ -216,3 +216,16 @@ def edit_event():
         return render_template('failure.html', message='Couldnt change event information.')
     return render_template('success.html', success='event changed')
 
+
+@app.route('/event_info')
+def event_info():
+    event_id = request.args.get('event_id')
+    if not event_id:
+        return render_template('failure.html', message='No event id given')
+    event_info = db.execute('SELECT * FROM events WHERE id = ?', event_id)
+    if not event_info:
+        return render_template('failure.html', message='No event with that id')
+    event_info = event_info[0]
+    return render_template('event_info.html', event_info=event_info)
+
+    
