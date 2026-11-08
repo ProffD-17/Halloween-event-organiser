@@ -78,6 +78,9 @@ CREATE TABLE guests (
 ## How to use
 You can use it through the web because I hosted it on Railway's free tier. If you want to run it locally all the things you need to download are in requirements.txt(don't think you need to download Gunicorn, that is for Railway)
 
+You dont need a real email for making an account.
+Here is a test account if you dont want to make one: username: 'test' email: 'test@test' password: 'test'
+
 ### Steps:
 1. Make an account or sign in if you already have one
 2. Create an event or skip this step if you dont want to host something
