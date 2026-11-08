@@ -178,6 +178,23 @@ def privileges():
     return render_template('failure.html', message='Couldnt change role.')
 
 
+# check if user is an admin or host of the event
+def has_authority(event_id, user_id):
+    host_id = db.execute('SELECT host_id FROM events WHERE id = ?', event_id)
+    if not host_id:
+        return render_template('failure.html', message='Invalid event.')
+    host_id = host_id[0]['host_id']
+    # check if user is host
+    if user_id != host_id:
+        # check if user has admin
+        role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
+        if role:
+            role = role[0]['role']
+        if role != 'admin':
+            return False
+    return True
+
+
 # edit events
 @app.route('/edit_event', methods=['POST', 'GET'])
 def edit_event():
@@ -193,18 +210,9 @@ def edit_event():
     # check if user has authorisation to complete the action (aka host of the event or admin)
     user_id = session['user_id']
     event_id = request.form.get('event_id')
-    host_id = db.execute('SELECT host_id FROM events WHERE id = ?', event_id)
-    if not host_id:
-        return render_template('failure.html', message='Invalid event.')
-    host_id = host_id[0]['host_id']
-    # check if user is host
-    if user_id != host_id:
-        # check if user has admin
-        role = db.execute('SELECT role FROM users WHERE id = ?', user_id)
-        if role:
-            role = role[0]['role']
-        if role != 'admin':
-            return render_template('failure.html', message='You dont have the privilege to complete this action.')
+    if not has_authority(event_id, user_id):
+        render_template('failure.html', message='You dont have the privilege to complete this action.')
+    
     # at this point user has passed verification and has authorisation to change the info
     # get info from form and put it in db
     name = request.form.get('name')
@@ -217,6 +225,7 @@ def edit_event():
     return render_template('success.html', success='event changed')
 
 
+# show all event info and actions on one page
 @app.route('/event_info')
 def event_info():
     event_id = request.args.get('event_id')
@@ -228,4 +237,22 @@ def event_info():
     event_info = event_info[0]
     return render_template('event_info.html', event_info=event_info)
 
+
+# delete an event from the database
+@app.route('/delete_event', methods=['POST'])
+def delete_event():
+    # get event to be deleted
+    event_id = request.form.get('event_id')
+    if not event_id:
+        return render_template('failure.html', message='Invalid event ID')
+    # check if user is either admin or host of event
+    user_id = session['user_id']
+    if not has_authority(event_id, user_id):
+        render_template('failure.html', message='You dont have the privilege to complete this action.')
+    # delete event
+    success = db.execute('DELETE FROM events WHERE id = ?', event_id)
+    # display result
+    if success:
+        return render_template('success.html', success='event deleted')
+    return render_template('failure.html', message='Failed to delete event')
     

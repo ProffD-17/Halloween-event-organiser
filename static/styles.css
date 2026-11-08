@@ -10,6 +10,9 @@
 
 h1, h2 {
     margin: 0 auto 10px;
+}
+
+h1, h2, th, label {
     color: #F7AB31;
 }
 
